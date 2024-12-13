@@ -12,12 +12,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.plcoding.bookpedia.book.domain.Book
+import com.plcoding.bookpedia.book.domain.Place
 
 @Composable
 fun BookList(
-    books: List<Book>,
-    onBookClick: (Book) -> Unit,
+    books: List<Place>,
+    onBookClick: (Place) -> Unit,
     modifier: Modifier = Modifier,
     scrollState: LazyListState = rememberLazyListState()
 ) {
@@ -29,7 +29,7 @@ fun BookList(
     ) {
         items(
             items = books,
-            key = { it.id }
+            key = { it.id ?: "" }
         ) { book ->
             BookListItem(
                 book = book,

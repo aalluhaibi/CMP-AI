@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
 import com.plcoding.bookpedia.app.Route
-import com.plcoding.bookpedia.book.domain.BookRepository
+import com.plcoding.bookpedia.book.domain.PlaceRepository
 import com.plcoding.bookpedia.core.domain.onSuccess
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -18,7 +18,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class BookDetailViewModel(
-    private val bookRepository: BookRepository,
+    private val repository: PlaceRepository,
     private val savedStateHandle: SavedStateHandle
 ): ViewModel() {
 
@@ -28,7 +28,6 @@ class BookDetailViewModel(
     val state = _state
         .onStart {
             fetchBookDescription()
-            observeFavoriteStatus()
         }
         .stateIn(
             viewModelScope,
@@ -43,44 +42,22 @@ class BookDetailViewModel(
                     book = action.book
                 ) }
             }
-            is BookDetailAction.OnFavoriteClick -> {
-                viewModelScope.launch {
-                    if(state.value.isFavorite) {
-                        bookRepository.deleteFromFavorites(bookId)
-                    } else {
-                        state.value.book?.let { book ->
-                            bookRepository.markAsFavorite(book)
-                        }
-                    }
-                }
-            }
             else -> Unit
         }
     }
 
-    private fun observeFavoriteStatus() {
-        bookRepository
-            .isBookFavorite(bookId)
-            .onEach { isFavorite ->
-                _state.update { it.copy(
-                    isFavorite = isFavorite
-                ) }
-            }
-            .launchIn(viewModelScope)
-    }
-
     private fun fetchBookDescription() {
         viewModelScope.launch {
-            bookRepository
-                .getBookDescription(bookId)
-                .onSuccess { description ->
-                    _state.update { it.copy(
-                        book = it.book?.copy(
-                            description = description
-                        ),
-                        isLoading = false
-                    ) }
-                }
+//            repository
+//                .getBookDescription(bookId)
+//                .onSuccess { description ->
+//                    _state.update { it.copy(
+//                        book = it.book?.copy(
+//                            description = description
+//                        ),
+//                        isLoading = false
+//                    ) }
+//                }
         }
     }
 }

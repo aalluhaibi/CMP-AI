@@ -4,9 +4,7 @@ package com.plcoding.bookpedia.book.presentation.book_list
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.compose.viewModel
-import com.plcoding.bookpedia.book.domain.Book
-import com.plcoding.bookpedia.book.domain.BookRepository
+import com.plcoding.bookpedia.book.domain.PlaceRepository
 import com.plcoding.bookpedia.core.domain.onError
 import com.plcoding.bookpedia.core.domain.onSuccess
 import com.plcoding.bookpedia.core.presentation.toUiText
@@ -14,7 +12,6 @@ import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.launchIn
@@ -26,20 +23,15 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class BookListViewModel(
-    private val bookRepository: BookRepository
+    private val repository: PlaceRepository
 ) : ViewModel() {
 
-    private var cachedBooks = emptyList<Book>()
     private var searchJob: Job? = null
-    private var observeFavoriteJob: Job? = null
 
     private val _state = MutableStateFlow(BookListState())
     val state = _state
         .onStart {
-            if(cachedBooks.isEmpty()) {
                 observeSearchQuery()
-            }
-            observeFavoriteBooks()
         }
         .stateIn(
             viewModelScope,
@@ -67,17 +59,6 @@ class BookListViewModel(
         }
     }
 
-    private fun observeFavoriteBooks() {
-        observeFavoriteJob?.cancel()
-        observeFavoriteJob = bookRepository
-            .getFavoriteBooks()
-            .onEach { favoriteBooks ->
-                _state.update { it.copy(
-                    favoriteBooks = favoriteBooks
-                ) }
-            }
-            .launchIn(viewModelScope)
-    }
 
     private fun observeSearchQuery() {
         state
@@ -90,7 +71,6 @@ class BookListViewModel(
                         _state.update {
                             it.copy(
                                 errorMessage = null,
-                                searchResults = cachedBooks
                             )
                         }
                     }
@@ -110,8 +90,8 @@ class BookListViewModel(
                 isLoading = true
             )
         }
-        bookRepository
-            .searchBooks(query)
+        repository
+            .searchPlaces()
             .onSuccess { searchResults ->
                 _state.update {
                     it.copy(
@@ -131,5 +111,4 @@ class BookListViewModel(
                 }
             }
     }
-
 }

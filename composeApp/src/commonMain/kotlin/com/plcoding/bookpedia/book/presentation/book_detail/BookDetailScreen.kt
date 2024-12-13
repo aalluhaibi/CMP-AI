@@ -69,7 +69,7 @@ private fun BookDetailScreen(
     onAction: (BookDetailAction) -> Unit
 ) {
     BlurredImageBackground(
-        imageUrl = state.book?.imageUrl,
+        imageUrl = state.book?.iconUrl,
         isFavorite = state.isFavorite,
         onFavoriteClick = {
             onAction(BookDetailAction.OnFavoriteClick)
@@ -92,12 +92,12 @@ private fun BookDetailScreen(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
-                    text = state.book.title,
+                    text = state.book.name ?: "",
                     style = MaterialTheme.typography.headlineSmall,
                     textAlign = TextAlign.Center
                 )
                 Text(
-                    text = state.book.authors.joinToString(),
+                    text = state.book.categories.joinToString(),
                     style = MaterialTheme.typography.titleMedium,
                     textAlign = TextAlign.Center
                 )
@@ -106,14 +106,14 @@ private fun BookDetailScreen(
                         .padding(vertical = 8.dp),
                     horizontalArrangement = Arrangement.spacedBy(16.dp)
                 ) {
-                    state.book.averageRating?.let { rating ->
+                    state.book.categories?.let { rating ->
                         TitledContent(
                             title = stringResource(Res.string.rating),
                         ) {
                             BookChip {
-                                Text(
-                                    text = "${round(rating * 10) / 10.0}"
-                                )
+//                                Text(
+//                                    text = "${round(rating * 10) / 10.0}"
+//                                )
                                 Icon(
                                     imageVector = Icons.Default.Star,
                                     contentDescription = null,
@@ -122,40 +122,40 @@ private fun BookDetailScreen(
                             }
                         }
                     }
-                    state.book.numPages?.let { pageCount ->
-                        TitledContent(
-                            title = stringResource(Res.string.pages),
-                        ) {
-                            BookChip {
-                                Text(text = pageCount.toString())
-                            }
-                        }
-                    }
+//                    state.book.numPages?.let { pageCount ->
+//                        TitledContent(
+//                            title = stringResource(Res.string.pages),
+//                        ) {
+//                            BookChip {
+//                                Text(text = pageCount.toString())
+//                            }
+//                        }
+//                    }
                 }
-                if(state.book.languages.isNotEmpty()) {
-                    TitledContent(
-                        title = stringResource(Res.string.languages),
-                        modifier = Modifier
-                            .padding(vertical = 8.dp)
-                    ) {
-                        FlowRow(
-                            horizontalArrangement = Arrangement.Center,
-                            modifier = Modifier.wrapContentSize(Alignment.Center)
-                        ) {
-                            state.book.languages.forEach { language ->
-                                BookChip(
-                                    size = ChipSize.SMALL,
-                                    modifier = Modifier.padding(2.dp)
-                                ) {
-                                    Text(
-                                        text = language.uppercase(),
-                                        style = MaterialTheme.typography.bodyMedium
-                                    )
-                                }
-                            }
-                        }
-                    }
-                }
+//                if(state.book.languages.isNotEmpty()) {
+//                    TitledContent(
+//                        title = stringResource(Res.string.languages),
+//                        modifier = Modifier
+//                            .padding(vertical = 8.dp)
+//                    ) {
+//                        FlowRow(
+//                            horizontalArrangement = Arrangement.Center,
+//                            modifier = Modifier.wrapContentSize(Alignment.Center)
+//                        ) {
+//                            state.book.languages.forEach { language ->
+//                                BookChip(
+//                                    size = ChipSize.SMALL,
+//                                    modifier = Modifier.padding(2.dp)
+//                                ) {
+//                                    Text(
+//                                        text = language.uppercase(),
+//                                        style = MaterialTheme.typography.bodyMedium
+//                                    )
+//                                }
+//                            }
+//                        }
+//                    }
+//                }
                 Text(
                     text = stringResource(Res.string.synopsis),
                     style = MaterialTheme.typography.titleLarge,
@@ -178,14 +178,14 @@ private fun BookDetailScreen(
 //                    }
                 } else {
                     Text(
-                        text = if(state.book.description.isNullOrBlank()) {
+                        text = if(state.book.name.isNullOrBlank()) {
                             stringResource(Res.string.description_unavailable)
                         } else {
-                            state.book.description
+                            state.book.name
                         },
                         style = MaterialTheme.typography.bodyMedium,
                         textAlign = TextAlign.Justify,
-                        color = if(state.book.description.isNullOrBlank()) {
+                        color = if(state.book.name.isNullOrBlank()) {
                             Color.Black.copy(alpha = 0.4f)
                         } else Color.Black,
                         modifier = Modifier

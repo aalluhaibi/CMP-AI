@@ -7,7 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
-import com.plcoding.bookpedia.book.domain.Book
+import com.plcoding.bookpedia.book.domain.Place
 import com.plcoding.bookpedia.book.presentation.book_list.BookListScreen
 import com.plcoding.bookpedia.book.presentation.book_list.BookListState
 import com.plcoding.bookpedia.book.presentation.book_list.components.BookSearchBar
@@ -31,18 +31,12 @@ private fun BookSearchBarPreview() {
 }
 
 private val books = (1..100).map {
-    Book(
+    Place(
         id = it.toString(),
-        title = "Book $it",
-        imageUrl = "https://test.com",
-        authors = listOf("Philipp Lackner"),
-        description = "Description $it",
-        languages = emptyList(),
-        firstPublishYear = null,
-        averageRating = 4.67854,
-        ratingCount = 5,
-        numPages = 100,
-        numEditions = 3
+        name = "Test$it",
+        iconUrl = "",
+        categories = listOf(""),
+        location = ""
     )
 }
 

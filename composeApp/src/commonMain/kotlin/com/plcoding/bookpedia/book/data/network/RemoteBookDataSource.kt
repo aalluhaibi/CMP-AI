@@ -1,15 +1,10 @@
 package com.plcoding.bookpedia.book.data.network
 
-import com.plcoding.bookpedia.book.data.dto.BookWorkDto
-import com.plcoding.bookpedia.book.data.dto.SearchResponseDto
+import com.plcoding.bookpedia.book.data.dto.PlacesDto
 import com.plcoding.bookpedia.core.domain.DataError
 import com.plcoding.bookpedia.core.domain.Result
 
-interface RemoteBookDataSource {
-    suspend fun searchBooks(
-        query: String,
-        resultLimit: Int? = null
-    ): Result<SearchResponseDto, DataError.Remote>
-
-    suspend fun getBookDetails(bookWorkId: String): Result<BookWorkDto, DataError.Remote>
+interface RemotePlaceDataSource {
+    suspend fun getPlaces(): Result<PlacesDto, DataError.Remote>
+    suspend fun getPlaceDetails(placeWorkId: String): Result<PlacesDto, DataError.Remote>
 }
