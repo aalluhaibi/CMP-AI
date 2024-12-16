@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "409800559952",
+    "project_id": "explore-ai-a1787",
+    "storage_bucket": "explore-ai-a1787.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:409800559952:android:0eca5372a42f78b146b055",
+        "android_client_info": {
+          "package_name": "a.atiyah.sa.exploreai"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAGJOu4vTBhPLzHTkxKKzSZysayadfdxao"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

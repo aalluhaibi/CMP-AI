@@ -8,6 +8,7 @@ plugins {
     alias(libs.plugins.jetbrainsCompose)
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.jetbrains.kotlin.serialization)
+    alias(libs.plugins.googleServices)
     alias(libs.plugins.ksp)
     alias(libs.plugins.room)
 }
@@ -47,6 +48,8 @@ kotlin {
             implementation(libs.koin.android)
             implementation(libs.koin.androidx.compose)
             implementation(libs.ktor.client.okhttp)
+            implementation(project.dependencies.platform(libs.firebase.bom))
+            implementation(libs.firebase.vertexai)
         }
         commonMain.dependencies {
             implementation(compose.runtime)
@@ -67,7 +70,7 @@ kotlin {
             implementation(libs.koin.compose)
             implementation(libs.koin.compose.viewmodel)
             api(libs.koin.core)
-
+            implementation(libs.markdown.renderer)
             implementation(libs.bundles.ktor)
             implementation(libs.bundles.coil)
         }
@@ -87,11 +90,11 @@ kotlin {
 }
 
 android {
-    namespace = "a.atiyah.exploreai"
+    namespace = "a.atiyah.sa.exploreai"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
 
     defaultConfig {
-        applicationId = "a.atiyah.exploreai"
+        applicationId = "a.atiyah.sa.exploreai"
         minSdk = libs.versions.android.minSdk.get().toInt()
         targetSdk = libs.versions.android.targetSdk.get().toInt()
         versionCode = 1
@@ -119,11 +122,11 @@ dependencies {
 
 compose.desktop {
     application {
-        mainClass = "a.atiyah.exploreai.MainKt"
+        mainClass = "a.atiyah.sa.exploreai.MainKt"
 
         nativeDistributions {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
-            packageName = "a.atiyah.exploreai"
+            packageName = "a.atiyah.sa.exploreai"
             packageVersion = "1.0.0"
         }
     }
