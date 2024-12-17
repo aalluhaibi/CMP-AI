@@ -15,7 +15,6 @@ plugins {
 
 kotlin {
     androidTarget {
-        @OptIn(ExperimentalKotlinGradlePluginApi::class)
         compilerOptions {
             jvmTarget.set(JvmTarget.JVM_11)
         }
@@ -72,7 +71,7 @@ kotlin {
             api(libs.koin.core)
             implementation(libs.markdown.renderer)
             implementation(libs.bundles.ktor)
-            implementation(libs.bundles.coil)
+            //implementation(libs.bundles.coil)
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
@@ -108,6 +107,7 @@ android {
     buildTypes {
         getByName("release") {
             isMinifyEnabled = false
+            isDebuggable = true
         }
     }
     compileOptions {
