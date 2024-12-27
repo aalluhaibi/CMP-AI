@@ -1,6 +1,7 @@
 package a.atiyah.sa.exploreai.auth.presentation
 
 import a.atiyah.sa.exploreai.auth.domain.GoogleAccount
+import cocoapods.GoogleSignIn.GIDSignIn
 import kotlinx.cinterop.ExperimentalForeignApi
 import platform.UIKit.UIApplication
 import kotlin.coroutines.resume
@@ -19,23 +20,23 @@ actual class GoogleAuthUiProvider {
             if (rootViewController == null) {
                 continutation.resume(null)
             } else {
-//                GIDSignIn.sharedInstance
-//                    .signInWithPresentingViewController(rootViewController) { gidSignInResult, nsError ->
-//                        nsError?.let { println("Error While signing: $nsError") }
-//                        val idToken = gidSignInResult?.user?.idToken?.tokenString
-//                        val profile = gidSignInResult?.user?.profile
-//                        if (idToken != null) {
-//                            val googleUser =
-//                                GoogleAccount(
-//                                    token = idToken,
-//                                    displayName = profile?.name ?: "",
-//                                    profileImageUrl = profile?.imageURLWithDimension(320u)?.absoluteString,
-//                                )
-//                            continutation.resume(googleUser)
-//                        } else {
-//                            continutation.resume(null)
-//                        }
-//                    }
+                GIDSignIn.sharedInstance
+                    .signInWithPresentingViewController(rootViewController) { gidSignInResult, nsError ->
+                        nsError?.let { println("Error While signing: $nsError") }
+                        val idToken = gidSignInResult?.user?.idToken?.tokenString
+                        val profile = gidSignInResult?.user?.profile
+                        if (idToken != null) {
+                            val googleUser =
+                                GoogleAccount(
+                                    token = idToken,
+                                    displayName = profile?.name ?: "",
+                                    profileImageUrl = profile?.imageURLWithDimension(320u)?.absoluteString,
+                                )
+                            continutation.resume(googleUser)
+                        } else {
+                            continutation.resume(null)
+                        }
+                    }
             }
         }
 }

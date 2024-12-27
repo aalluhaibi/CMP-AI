@@ -28,18 +28,15 @@ actual class GoogleAuthUiProvider(
         credential is CustomCredential && credential.type == GoogleIdTokenCredential.TYPE_GOOGLE_ID_TOKEN_CREDENTIAL -> {
             try {
                 val googleIdTokenCredential = GoogleIdTokenCredential.createFrom(credential.data)
-                println("onGoogleSignInResult: ${googleIdTokenCredential.idToken}/${googleIdTokenCredential.displayName}/${googleIdTokenCredential.profilePictureUri}")
                 GoogleAccount(
                     token = googleIdTokenCredential.idToken,
                     displayName = googleIdTokenCredential.displayName ?: "",
                     profileImageUrl = googleIdTokenCredential.profilePictureUri?.toString()
                 )
             } catch (e: GoogleIdTokenParsingException) {
-                println("onGoogleSignInResult: exception")
                 null
             }
         }
-
         else -> null
     }
 

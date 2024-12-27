@@ -1,6 +1,7 @@
 package a.atiyah.sa.exploreai.auth.presentation
 
 import androidx.compose.runtime.Composable
+import cocoapods.GoogleSignIn.GIDSignIn
 import kotlinx.cinterop.ExperimentalForeignApi
 
 actual class GoogleAuthProvider {
@@ -10,6 +11,6 @@ actual class GoogleAuthProvider {
 
     @OptIn(ExperimentalForeignApi::class)
     actual suspend fun signOut() {
-        //GIDSignIn.sharedInstance.signOut()
+        GIDSignIn.sharedInstance.signOut()
     }
 }

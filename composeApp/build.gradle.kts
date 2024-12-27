@@ -10,7 +10,7 @@ plugins {
     alias(libs.plugins.googleServices)
     alias(libs.plugins.ksp)
     alias(libs.plugins.room)
-    alias(libs.plugins.kotlinCocoapods).version("2.1.0")
+    alias(libs.plugins.kotlinCocoapods)
 }
 
 kotlin {
@@ -25,16 +25,15 @@ kotlin {
     iosSimulatorArm64()
 
     cocoapods {
-        version = "1.0"
-        summary = "Some description for a Kotlin/Native module"
-        homepage = "Link to a Kotlin/Native module homepage"
-        ios.deploymentTarget = "16.0"
-
-        podfile = project.file("../iosApp/Podfile")
+        ios.deploymentTarget = "16"
+        version = "1.0.0"
+        summary = "Shared module"
         framework {
-            baseName = "composeApp"
+            baseName = "ComposeApp"
             isStatic = true
         }
+
+        pod("GoogleSignIn")
     }
 
 
@@ -56,6 +55,9 @@ kotlin {
             implementation(libs.ktor.client.okhttp)
             implementation(project.dependencies.platform(libs.firebase.bom))
             implementation(libs.firebase.vertexai)
+            implementation(libs.androidx.crials)
+            implementation(libs.androidx.credentials.play.services.auth)
+            implementation(libs.googleid)
         }
         commonMain.dependencies {
             implementation(compose.runtime)
@@ -79,9 +81,6 @@ kotlin {
             implementation(libs.markdown.renderer)
             implementation(libs.bundles.ktor)
             //implementation(libs.bundles.coil)
-            implementation(libs.androidx.crials)
-            implementation(libs.androidx.credentials.play.services.auth)
-            implementation(libs.googleid)
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
