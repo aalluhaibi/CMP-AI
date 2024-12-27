@@ -1,5 +1,4 @@
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
-import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
@@ -11,6 +10,7 @@ plugins {
     alias(libs.plugins.googleServices)
     alias(libs.plugins.ksp)
     alias(libs.plugins.room)
+    alias(libs.plugins.kotlinCocoapods).version("2.1.0")
 }
 
 kotlin {
@@ -19,18 +19,25 @@ kotlin {
             jvmTarget.set(JvmTarget.JVM_11)
         }
     }
-    
-    listOf(
-        iosX64(),
-        iosArm64(),
-        iosSimulatorArm64()
-    ).forEach { iosTarget ->
-        iosTarget.binaries.framework {
-            baseName = "ComposeApp"
+
+    iosX64()
+    iosArm64()
+    iosSimulatorArm64()
+
+    cocoapods {
+        version = "1.0"
+        summary = "Some description for a Kotlin/Native module"
+        homepage = "Link to a Kotlin/Native module homepage"
+        ios.deploymentTarget = "16.0"
+
+        podfile = project.file("../iosApp/Podfile")
+        framework {
+            baseName = "composeApp"
             isStatic = true
         }
     }
-    
+
+
     jvm("desktop")
 
     room {
@@ -39,7 +46,7 @@ kotlin {
 
     sourceSets {
         val desktopMain by getting
-        
+
         androidMain.dependencies {
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
@@ -72,6 +79,9 @@ kotlin {
             implementation(libs.markdown.renderer)
             implementation(libs.bundles.ktor)
             //implementation(libs.bundles.coil)
+            implementation(libs.androidx.crials)
+            implementation(libs.androidx.credentials.play.services.auth)
+            implementation(libs.googleid)
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
