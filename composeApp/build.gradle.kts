@@ -44,6 +44,24 @@ kotlin {
     }
 
     sourceSets {
+        val osName = System.getProperty("os.name")
+        val targetOs = when {
+            osName == "Mac OS X" -> "macos"
+            osName.startsWith("Win") -> "windows"
+            osName.startsWith("Linux") -> "linux"
+            else -> error("Unsupported OS: $osName")
+        }
+
+        val osArch = System.getProperty("os.arch")
+        val targetArch = when (osArch) {
+            "x86_64", "amd64" -> "x64"
+            "aarch64" -> "arm64"
+            else -> error("Unsupported arch: $osArch")
+        }
+
+        val version = "0.8.18"
+        val target = "$targetOs-$targetArch"
+
         val desktopMain by getting
 
         androidMain.dependencies {
@@ -68,7 +86,7 @@ kotlin {
             implementation(compose.components.uiToolingPreview)
             implementation(libs.androidx.lifecycle.viewmodel)
             implementation(libs.androidx.lifecycle.runtime.compose)
-
+            implementation(libs.skiko)
             implementation(libs.androidx.lifecycle.viewmodel)
             implementation(libs.androidx.lifecycle.runtime.compose)
             implementation(libs.jetbrains.compose.navigation)
@@ -86,6 +104,7 @@ kotlin {
             implementation(compose.desktop.currentOs)
             implementation(libs.kotlinx.coroutines.swing)
             implementation(libs.ktor.client.okhttp)
+            implementation(libs.androidx.ui.graphics.desktop)
         }
         nativeMain.dependencies {
             implementation(libs.ktor.client.darwin)
@@ -93,6 +112,7 @@ kotlin {
 
         dependencies {
             ksp(libs.androidx.room.compiler)
+            implementation("org.jetbrains.skiko:skiko-awt-runtime-$target:$version")
         }
     }
 }
@@ -124,9 +144,8 @@ android {
         targetCompatibility = JavaVersion.VERSION_11
     }
 }
-
 dependencies {
-    debugImplementation(compose.uiTooling)
+    implementation(libs.androidx.ui.graphics.android)
 }
 
 compose.desktop {

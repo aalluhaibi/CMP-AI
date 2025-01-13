@@ -24,11 +24,14 @@ koin = "4.0.0"
 ktor = "2.3.12"
 coil3 = "3.0.4"
 ksp = "2.1.0-1.0.29"
+skiko = "0.8.18"
 sqlite = "2.5.0-alpha12"
 room = "2.7.0-alpha12"
 firebaseBom = "33.7.0"
 markdownRenderer = "0.26.0"
 googleServices = "4.4.2"
+uiGraphicsAndroid = "1.7.6"
+uiGraphicsDesktop = "1.7.0"
 
 [libraries]
 androidx-crials = { module = "androidx.credentials:credentials", version.ref = "credentials" }
@@ -77,7 +80,10 @@ coil-mp = { module = "io.coil-kt.coil3:coil", version.ref = "coil3" }
 
 androidx-room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
 androidx-room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
+skiko = { module = "org.jetbrains.skiko:skiko", version.ref = "skiko" }
 sqlite-bundled = { module = "androidx.sqlite:sqlite-bundled", version.ref = "sqlite" }
+androidx-ui-graphics-android = { group = "androidx.compose.ui", name = "ui-graphics-android", version.ref = "uiGraphicsAndroid" }
+androidx-ui-graphics-desktop = { group = "androidx.compose.ui", name = "ui-graphics-desktop", version.ref = "uiGraphicsDesktop" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
